@@ -1,0 +1,43 @@
+10 scenare = 
+
+-- respektujeme filtry vizualu, zadne nepridavame, nerusime
+VAR scenar1 = SUM(data[srazky])
+
+-- respektuji filtry vizualu a pridavam dalsi
+VAR scenar2 = 
+--krok4: SUMX() scita sloupec [srazky] tabulky vracene
+-- funkci FILTER()
+SUMX(
+    --krok3: Funkce FILTER() vraci zafiltrovanou tabulku
+    FILTER(
+        --krok1: Kopie tabulky data se vsemi jejimi filtry
+        data,
+    --krok2: Nastavime filtry kopie tabulky data
+    data[mesic] = 7),
+data[srazky])
+
+-- rusim filtry vizualu, zadne nenastavuji
+VAR scenar3 = 
+--krok2: Suma sloupce [srazky] tabulky vracene funkci ALL()
+SUMX(
+    --krok1: Kopie tabulky data zbavena vsech filtru
+    ALL(data),
+data[srazky])
+-- rusim filtry vizualu a nastavuji vlastni = 
+VAR scenar4 =
+--krok3: Soucet sloupce [srazky] tabulky vracene funkci FILTER()
+SUMX(
+    FILTER(
+        --krok1: Kopie tabulky data zbavena vsech filtru
+        ALL(data)
+    --krok2: Nastaveni filtru na tabulku vracene funkci ALL()
+    
+    -- Funkce VALUES() a MAX() se ptaji na hodnoty z originalni
+    -- tabulky data, jejiz filtry jsou zachovany
+    ,data[lokalita] IN VALUES(data[lokalita])
+    && data[rok] = MAX(data[rok]) - 1),
+data[srazky])
+
+
+return
+scenar4
